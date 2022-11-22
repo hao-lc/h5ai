@@ -155,15 +155,23 @@
 
     /*
     Calc the size of folders.
-    This operation is real slow. The calculated sizes differ slightly for both
-    calculation types since "php" only adds the file size, while "shell-du"
-    also adds the sizes for the actual folder files.
+    This operation is very fast with "shell-du" and is very slow with "php".
+    The calculated sizes differ slightly for both calculation types since "php"
+    only adds the file size, while "shell-du" also adds the sizes for the
+    actual folder files.
 
-    - type: string, "php" (sloooow) or "shell-du" (sloow)
+    Folder Size caching is recommended for sites with folders that contain large numbers of sub folders.
+    A minimum of 3 seconds is highly recommended to prevent double calculations on initial page load.
+
+    - type: "shell-du" (fast) or "php" (sloooow)
+    - cacheEnabled: "true" or "false". Requires write access to "/_{{pkg.name}}/cache" folder
+    - cacheMaxAge: [seconds] A folder's sub folder sizes expire and refresh after this time
     */
     "foldersize": {
         "enabled": true,
-        "type": "php"
+        "type": "shell-du",
+        "cacheEnabled": true,
+        "cacheMaxAge": 86400
     },
 
     /*

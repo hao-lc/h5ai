@@ -185,8 +185,10 @@ class Context {
             return [];
         }
 
+        $requestPath = $this->to_path($href);
+
         $cache = [];
-        $folder = Item::get($this, $this->to_path($href), $cache);
+        $folder = Item::get($this, $requestPath, $cache);
 
         // add content of subfolders
         if ($what >= 2 && $folder !== null) {
@@ -201,6 +203,8 @@ class Context {
             $folder->get_content($cache);
             $folder = $folder->get_parent($cache);
         }
+
+        Item::set_fast_child_folder_sizes($this, $requestPath, $cache);
 
         uasort($cache, ['Item', 'cmp']);
         $result = [];

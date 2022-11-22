@@ -84,6 +84,9 @@ class Util {
     public static function filesize($context, $path) {
         $withFoldersize = $context->query_option('foldersize.enabled', false);
         $withDu = $context->get_setup()->get('HAS_CMD_DU') && $context->query_option('foldersize.type', null) === 'shell-du';
+        if ($withFoldersize && $withDu) {
+            return 0; // use fast du cache
+        }
         return Filesize::getCachedSize($path, $withFoldersize, $withDu);
     }
 }
