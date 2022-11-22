@@ -73,7 +73,8 @@ class Item {
 
         if (!sizeof($folder_sizes)) {
             $du_lines = array();
-            exec("du -sk $path/*/", $du_lines);  // trailing slash gets folders only
+            $safe_path = escapeshellarg($path);
+            exec("du -sk $safe_path/*/", $du_lines);  // trailing slash gets folders only
             foreach ($du_lines as $du_line) {
                 // $line is bites separated by tab then full path (with trailing slash) i.e. "1024  /var/www/folder1/"
                 $line_parts = explode("\t", $du_line);
