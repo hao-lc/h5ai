@@ -61,7 +61,7 @@ const getItem = options => {
     if (isNum(options.time)) {
         item.time = options.time;
     }
-    if (isNum(options.size)) {
+    if (isNum(options.size) && options.size !== 0) {
         item.size = options.size;
     }
     if (options.managed) {
